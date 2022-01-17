@@ -45,7 +45,3 @@ function truncateText(number, text) {
 }
 
 export default RepositoryList;
-
-// add pagination
-
-// notes: when the dropdown is clicked the page slightly shifts, aria label issue on dropdown, wanted to expand to graphql, adding errors, didnt add envs for authentication because their api allows unauthenticated users to make up to 60 requests per hour which I assumed is plenty for reviewing this application
