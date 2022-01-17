@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Grid, Link, Paper } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 export function RepositoryList({ repositories = [] }) {
@@ -29,7 +29,9 @@ function Item({ isMobileSized, repository = {} }) {
             marginBottom: '20px'
           }}
         >
-          <p>{truncateText(isMobileSized ? 25 : 50, repository.fullName)}</p>
+          <Link href={repository.htmlURL} target="_blank" rel="noopener">
+            {truncateText(isMobileSized ? 25 : 50, repository.fullName)}
+          </Link>
           <p>{repository.stars} stars</p>
         </Box>
         <p>{truncateText(100, repository.description)}</p>
@@ -44,7 +46,6 @@ function truncateText(number, text) {
 
 export default RepositoryList;
 
-// add envs with github accessToken (Check how much you can do without)
 // add pagination
 
-// notes: when the dropdown is clicked the page slightly shifts, didnt have time to add link to github, aria label issue on dropdown, wanted to expand to graphql, adding errors
+// notes: when the dropdown is clicked the page slightly shifts, aria label issue on dropdown, wanted to expand to graphql, adding errors, didnt add envs for authentication because their api allows unauthenticated users to make up to 60 requests per hour which I assumed is plenty for reviewing this application

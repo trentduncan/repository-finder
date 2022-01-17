@@ -20,6 +20,7 @@ function toRepository(item) {
     id: item.id || '', // TODO: if not given an id, generate uuid
     description: item.description || '',
     fullName: item.full_name || '',
+    htmlURL: item.html_url || '',
     stars: item.stargazers_count || 0
   };
 }
