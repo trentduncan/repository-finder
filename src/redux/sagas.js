@@ -10,8 +10,7 @@ function* getRepositoriesSaga(action) {
 
     yield put({
       type: 'REPOSITORIES_FETCH_SUCCEEDED',
-      repositories: response.items,
-      totalResults: response.total_count
+      ...response
     });
   } catch (error) {
     yield put({ type: 'REPOSITORIES_FETCH_FAILED', message: error.message });

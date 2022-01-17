@@ -1,3 +1,11 @@
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
 
 function SearchForm({ onInteraction }) {
@@ -22,24 +30,47 @@ function SearchForm({ onInteraction }) {
 
   const { searchTermInput, languageInput } = state;
 
+  const matches = useMediaQuery('(min-width:730px)', { noSsr: true });
+  console.log(matches);
   return (
-    <form
-      style={{ backgroundColor: 'white', width: '500px', padding: '25px' }}
+    <Paper
+      component="form"
+      elevation={4}
+      sx={{
+        backgroundColor: 'white',
+        display: 'flex',
+        // flexDirection: 'column',
+        padding: '35px'
+      }}
       onSubmit={handleSubmit}
     >
-      <label>Search Parameter</label>
-      <input
+      <TextField
+        id="outlined-name"
         name="searchTerm"
-        type="text"
+        label="Search Value"
+        sx={{ marginRight: '30px', width: '200px' }}
         value={searchTermInput}
         onChange={handleChange}
       />
-      <select name="language" onChange={handleChange}>
-        <option value="javascript">Javascript</option>
-        <option value="python">Python</option>
-      </select>
-      <button></button>
-    </form>
+      <FormControl>
+        <InputLabel id="demo-simple-select-label">Language</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          sx={{ marginRight: '30px', width: '200px' }}
+          name="language"
+          value={languageInput}
+          label="Language"
+          onChange={handleChange}
+        >
+          <MenuItem value="javascript">Javascript</MenuItem>
+          <MenuItem value="python">Python</MenuItem>
+        </Select>
+      </FormControl>
+      <Button sx={{ width: '200px' }} type="submit" variant="contained">
+        Search
+      </Button>
+    </Paper>
   );
 }
 
