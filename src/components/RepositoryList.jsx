@@ -1,24 +1,26 @@
 import { Box, Grid, Paper } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export function RepositoryList({ repositories = [] }) {
+  const isMobileSized = useMediaQuery('(max-width:750px)');
+
   return (
     <Box>
       <Grid container spacing={5}>
         {repositories.map(repository => (
-          <Item repository={repository} />
+          <Item isMobileSized={isMobileSized} repository={repository} />
         ))}
       </Grid>
     </Box>
   );
 }
 
-function Item({ repository = {} }) {
+function Item({ isMobileSized, repository = {} }) {
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid key={repository.id} item xs={12} sm={6} md={4}>
       <Paper
-        sx={{ padding: '20px', minHeight: '100px' }}
+        sx={{ padding: '20px', minHeight: '100px', minWidth: '240px' }}
         elevation={3}
-        key={repository.id}
       >
         <Box
           sx={{
@@ -27,21 +29,22 @@ function Item({ repository = {} }) {
             marginBottom: '20px'
           }}
         >
-          <p>{repository.fullName}</p>
+          <p>{truncateText(isMobileSized ? 25 : 50, repository.fullName)}</p>
           <p>{repository.stars} stars</p>
         </Box>
-        <p>{repository.description}</p>
+        <p>{truncateText(100, repository.description)}</p>
       </Paper>
     </Grid>
   );
 }
 
+function truncateText(number, text) {
+  return text.length > number ? `${text.slice(0, number)}...` : text;
+}
+
 export default RepositoryList;
 
-// Finish responsiveness
-// Add loading to button and list
-// Add logo to page
-// Check other browsers
 // add envs with github accessToken (Check how much you can do without)
-// fix colors
 // add pagination
+
+// notes: when the dropdown is clicked the page slightly shifts, didnt have time to add link to github, aria label issue on dropdown, wanted to expand to graphql, adding errors

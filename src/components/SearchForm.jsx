@@ -1,14 +1,27 @@
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
 
-function SearchForm({ onInteraction }) {
+const languagesMap = {
+  javascript: 'Javascript',
+  ruby: 'Ruby',
+  python: 'Python',
+  css: 'CSS',
+  html: 'HTML',
+  shell: 'Shell',
+  typescript: 'Typescript',
+  java: 'Java',
+  scala: 'Scala',
+  rust: 'Rust'
+};
+
+function SearchForm({ isLoadingRepositories, onInteraction }) {
   const initialState = { searchTermInput: '', languageInput: 'javascript' };
 
   const [state, setState] = useState(initialState);
@@ -30,8 +43,6 @@ function SearchForm({ onInteraction }) {
 
   const { searchTermInput, languageInput } = state;
 
-  const matches = useMediaQuery('(min-width:730px)', { noSsr: true });
-  console.log(matches);
   return (
     <Paper
       component="form"
@@ -39,36 +50,59 @@ function SearchForm({ onInteraction }) {
       sx={{
         backgroundColor: 'white',
         display: 'flex',
-        // flexDirection: 'column',
+        '@media (max-width: 750px)': {
+          alignItems: 'center',
+          flexDirection: 'column',
+          width: '80%'
+        },
         padding: '35px'
       }}
       onSubmit={handleSubmit}
     >
       <TextField
-        id="outlined-name"
         name="searchTerm"
         label="Search Value"
-        sx={{ marginRight: '30px', width: '200px' }}
+        sx={{
+          width: '200px',
+          marginRight: '30px',
+          '@media (max-width: 750px)': {
+            marginBottom: '30px',
+            marginRight: '0 !important'
+          }
+        }}
         value={searchTermInput}
         onChange={handleChange}
       />
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Language</InputLabel>
+      <FormControl sx={{ marginRight: '0 !important' }}>
+        <InputLabel>Language</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          sx={{ marginRight: '30px', width: '200px' }}
+          sx={{
+            width: '200px',
+            marginRight: '30px',
+            '@media (max-width: 750px)': {
+              marginBottom: '30px',
+              marginRight: '0 !important'
+            }
+          }}
           name="language"
           value={languageInput}
           label="Language"
           onChange={handleChange}
         >
-          <MenuItem value="javascript">Javascript</MenuItem>
-          <MenuItem value="python">Python</MenuItem>
+          {Object.entries(languagesMap).map(([key, value], i) => (
+            <MenuItem key={i} value={key}>
+              {value}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <Button sx={{ width: '200px' }} type="submit" variant="contained">
-        Search
+      <Button
+        disabled={searchTermInput === '' || isLoadingRepositories}
+        sx={{ width: '200px', height: '56px' }}
+        type="submit"
+        variant="contained"
+      >
+        {isLoadingRepositories ? <CircularProgress /> : 'Search'}
       </Button>
     </Paper>
   );

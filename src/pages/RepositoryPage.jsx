@@ -2,7 +2,11 @@ import Box from '@mui/material/Box';
 import RepositoryList from '../components/RepositoryList';
 import SearchForm from '../components/SearchForm';
 
-function RepositoryPage({ repositories, onInteraction }) {
+function RepositoryPage({
+  isLoadingRepositories,
+  repositories,
+  onInteraction
+}) {
   return (
     <Box>
       <Box
@@ -11,7 +15,7 @@ function RepositoryPage({ repositories, onInteraction }) {
           alignItems: 'center',
           width: '100%',
           height: 70,
-          backgroundColor: '#005cb9',
+          backgroundColor: '#196fc4',
           color: '#e5832d',
           paddingLeft: '10px',
           fontSize: '30px',
@@ -28,9 +32,16 @@ function RepositoryPage({ repositories, onInteraction }) {
           padding: '30px'
         }}
       >
-        <SearchForm onInteraction={onInteraction} />
+        <SearchForm
+          isLoadingRepositories={isLoadingRepositories}
+          onInteraction={onInteraction}
+        />
         <Box sx={{ marginTop: '50px' }}>
-          <RepositoryList repositories={repositories} />
+          {isLoadingRepositories ? (
+            'Fetching List...'
+          ) : (
+            <RepositoryList repositories={repositories} />
+          )}
         </Box>
       </Box>
     </Box>

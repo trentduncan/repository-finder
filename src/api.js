@@ -17,9 +17,9 @@ export async function getRepositories({
 
 function toRepository(item) {
   return {
-    id: item.id,
-    description: item.description,
-    fullName: item.full_name,
-    stars: item.stargazers_count
+    id: item.id || '', // TODO: if not given an id, generate uuid
+    description: item.description || '',
+    fullName: item.full_name || '',
+    stars: item.stargazers_count || 0
   };
 }

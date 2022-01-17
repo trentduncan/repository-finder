@@ -6,8 +6,6 @@ function RepositoryContainer() {
   const dispatch = useDispatch();
   const appState = useSelector(state => state);
 
-  const repositories = appState.repositories;
-
   function handleInteraction(interaction) {
     switch (interaction.type) {
       case SearchForm.INTERACTION_SUBMIT_BUTTON_CLICKED: {
@@ -25,7 +23,8 @@ function RepositoryContainer() {
 
   return (
     <RepositoryPage
-      repositories={repositories}
+      isLoadingRepositories={appState.isLoadingRepositories}
+      repositories={appState.repositories}
       onInteraction={handleInteraction}
     />
   );
