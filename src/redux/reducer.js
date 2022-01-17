@@ -3,14 +3,20 @@ export const reducer = (currentState = {}, action) => {
     case 'REPOSITORIES_FETCH_REQUESTED': {
       return {
         ...currentState,
-        isLoadingRepositories: true
+        isLoadingRepositories: true,
+        currentSearchParameters: {
+          searchTerm: action.searchTerm,
+          language: action.language,
+          pageNumber: action.pageNumber
+        }
       };
     }
     case 'REPOSITORIES_FETCH_SUCCEEDED': {
       return {
         ...currentState,
         isLoadingRepositories: false,
-        repositories: action.repositories
+        repositories: action.repositories,
+        totalResults: action.totalResults
       };
     }
     default:

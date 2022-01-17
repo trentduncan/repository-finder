@@ -12,7 +12,17 @@ function RepositoryContainer() {
         dispatch({
           type: 'REPOSITORIES_FETCH_REQUESTED',
           searchTerm: interaction.searchTerm,
-          language: interaction.language
+          language: interaction.language,
+          pageNumber: 1
+        });
+        return;
+      }
+      case RepositoryPage.INTERACTION_PAGE_CHANGED: {
+        dispatch({
+          type: 'REPOSITORIES_FETCH_REQUESTED',
+          searchTerm: appState.currentSearchParameters.searchTerm,
+          language: appState.currentSearchParameters.language,
+          pageNumber: interaction.pageNumber
         });
         return;
       }
@@ -25,6 +35,7 @@ function RepositoryContainer() {
     <RepositoryPage
       isLoadingRepositories={appState.isLoadingRepositories}
       repositories={appState.repositories}
+      totalResults={appState.totalResults}
       onInteraction={handleInteraction}
     />
   );

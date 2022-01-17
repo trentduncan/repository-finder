@@ -1,12 +1,29 @@
 import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
 import RepositoryList from '../components/RepositoryList';
 import SearchForm from '../components/SearchForm';
 
+const PAGE_SIZE = 30;
+
 function RepositoryPage({
   isLoadingRepositories,
+  pageNumber,
   repositories,
+  totalResults = 0,
   onInteraction
 }) {
+  // Githubs Search API tops out at 1000 results for a given query, before narrowing the parameters: https://docs.github.com/en/rest/reference/search
+  const totalPages = Math.ceil(
+    (totalResults > 1000 ? 1000 : totalResults) / PAGE_SIZE
+  );
+
+  function handleChangePage(_event, value) {
+    onInteraction({
+      type: RepositoryPage.INTERACTION_PAGE_CHANGED,
+      pageNumber: value
+    });
+  }
+
   return (
     <Box>
       <Box
@@ -36,6 +53,16 @@ function RepositoryPage({
           isLoadingRepositories={isLoadingRepositories}
           onInteraction={onInteraction}
         />
+        {totalPages === 0 ? null : (
+          <Pagination
+            sx={{ marginTop: '50px' }}
+            count={totalPages}
+            page={pageNumber}
+            shape="rounded"
+            size="small"
+            onChange={handleChangePage}
+          />
+        )}
         <Box sx={{ marginTop: '50px' }}>
           {isLoadingRepositories ? (
             'Fetching List...'
@@ -47,5 +74,8 @@ function RepositoryPage({
     </Box>
   );
 }
+
+RepositoryPage.INTERACTION_PAGE_CHANGED =
+  'RepositoryPage.INTERACTION_PAGE_CHANGED';
 
 export default RepositoryPage;

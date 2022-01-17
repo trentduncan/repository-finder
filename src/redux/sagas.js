@@ -5,7 +5,8 @@ function* getRepositoriesSaga(action) {
   try {
     const response = yield getRepositories({
       searchTerm: action.searchTerm,
-      language: action.language
+      language: action.language,
+      pageNumber: action.pageNumber
     });
 
     yield put({
